@@ -23,11 +23,11 @@ def extractSubStr(fullStr, startStr, endStr):
 def returnListofEvents(fullStr, startStr, endStr):
     listOfEvents, start, end = [], [], []
 
-    for str in re.finditer(startStr, fullStr):
-        start.append(str.end())
+    for s in re.finditer(startStr, fullStr):
+        start.append(s.end())
 
-    for str in re.finditer(endStr, fullStr):
-        end.append(str.start())
+    for s in re.finditer(endStr, fullStr):
+        end.append(s.start())
 
     for i in range(len(start)):
         listOfEvents.append(fullStr[start[i]:end[i]].replace(',', ';'))
@@ -45,19 +45,19 @@ def configArrayReader(sectionStr, optionStr):
 
 
 def configArrayWriter(sectionStr, optionStr, arrayToWrite):
-    str = ""
+    s = ""
 
     for i in range(len(arrayToWrite)):
-        str += arrayToWrite[i] + ","
+        s += arrayToWrite[i] + ","
 
-    parser[sectionStr][optionStr] = str
+    parser[sectionStr][optionStr] = s
 
 
 def diff(list1, list2):
     return (list(set(list1) - set(list2)))
 
 
-def generateEmail(upcoming, open, closed, mode):
+def generateEmail(upcoming, openev, closed, mode):
     email = ""
 
     if mode == 'html':
@@ -67,8 +67,8 @@ def generateEmail(upcoming, open, closed, mode):
         email += '</ul></ul></div><div>'
 
         email += '<div dir="ltr"><b>&nbsp; &nbsp; &nbsp;</b><u><b><font face = "arial, sans-serif">EVENTOS COM INSCRIÇÕES ABERTAS:</font></b></u><div><ul><ul>'
-        for i in range(len(open)):
-            email += '<li>' + open[i] + '</li>'
+        for i in range(len(openev)):
+            email += '<li>' + openev[i] + '</li>'
         email += '</ul></ul></div><div>'
 
         email += '<div dir="ltr"><b>&nbsp; &nbsp; &nbsp;</b><u><b><font face = "arial, sans-serif">NOVOS EVENTOS COM INSCRIÇÕES ABERTAS:</font></b></u><div><ul><ul>'
@@ -82,8 +82,8 @@ def generateEmail(upcoming, open, closed, mode):
             email += '\t *'+upcoming[i]+'\n'
         email += '\n'
         email += 'EVENTOS COM INSCRIÇÕES ABERTAS:\n'
-        for i in range(len(open)):
-            email += '\t *'+open[i]+'\n'
+        for i in range(len(openev)):
+            email += '\t *'+openev[i]+'\n'
         email += '\n'
         email += 'EVENTOS EM OUTRAS ETAPAS:\n'
         for i in range(len(closed)):
@@ -92,7 +92,7 @@ def generateEmail(upcoming, open, closed, mode):
     return email
 
 
-def sendEmail(upcoming, open, closed, mode):
+def sendEmail(upcoming, openev, closed, mode):
     username = parser.get('EMAIL', 'username')
     password = parser.get('EMAIL', 'password')
     to_addrs = configArrayReader('SENDTO', 'list')
@@ -101,7 +101,7 @@ def sendEmail(upcoming, open, closed, mode):
     smtp_ssl_host = 'smtp.gmail.com'
     smtp_ssl_port = 465
 
-    message = MIMEText(generateEmail(upcoming, open, closed, mode), mode)
+    message = MIMEText(generateEmail(upcoming, openev, closed, mode), mode)
     message['subject'] = 'Atualização Eventos'
     message['from'] = from_addr
     message['to'] = ', '.join(to_addrs)

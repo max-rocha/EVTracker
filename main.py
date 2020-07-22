@@ -71,7 +71,7 @@ def generateEmail(upcoming, openev, closed, mode):
             email += '<li>' + openev[i] + '</li>'
         email += '</ul></ul></div><div>'
 
-        email += '<div dir="ltr"><b>&nbsp; &nbsp; &nbsp;</b><u><b><font face = "arial, sans-serif">NOVOS EVENTOS COM INSCRIÇÕES ABERTAS:</font></b></u><div><ul><ul>'
+        email += '<div dir="ltr"><b>&nbsp; &nbsp; &nbsp;</b><u><b><font face = "arial, sans-serif">EVENTOS RECENTEMENTE EM OUTRAS ETAPAS:</font></b></u><div><ul><ul>'
         for i in range(len(closed)):
             email += '<li>' + closed[i] + '</li>'
         email += '</ul></ul></div><div>'
